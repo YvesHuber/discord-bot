@@ -1,0 +1,17 @@
+My prefix is _
+Parameters:
+My Parameters are written after the command
+_sum 4 5
+
+Commands: 
+    help: returns all of my commands
+    ping: returns ms of the bot       
+    sum: Calculates the sum of numbers   
+    dif: Calculates the difference of numbers
+    mul: Calculates the multiple of numbers    
+    quo: Calculates the qoutient of numbers
+    
+    speak: tts :D
+    pic: sends a random picture
+    log: Logs the chat of a twitch streamer
+    twitch: returns that Log in the discord chat
