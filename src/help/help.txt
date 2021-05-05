@@ -1,16 +1,12 @@
-My prefix is _
+My prefix is !
 Parameters:
 My Parameters are written after the command
-_sum 4 5
+!log xQcOW
 
 Commands: 
-    help: returns all of my commands
+    !: returns all of my commands
     ping: returns ms of the bot       
-    sum: Calculates the sum of numbers   
-    dif: Calculates the difference of numbers
-    mul: Calculates the multiple of numbers    
-    quo: Calculates the qoutient of numbers
-    
+    calc: calculates for you
     speak: tts :D
     pic: sends a random picture
     log: Logs the chat of a twitch streamer
