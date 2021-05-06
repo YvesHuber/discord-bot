@@ -10,10 +10,10 @@ const prefix = "!";
 
 client.on("message", function (message) {
 
-    client.user.setActivity("with great depression", {
-        type: "Streaming",
-        url: "https://github.com/YvesHuber/EDAJBot"
-    });
+    client.user.setActivity("with depression", {
+        type: "STREAMING",
+        url: "https://github.com/YvesHuber/discord-bot"
+      });
     if (message.author.bot) return;
     if (!message.content.startsWith(prefix)) return;
 
@@ -28,7 +28,6 @@ client.on("message", function (message) {
             }
             const help = data.split("\n")
             message.channel.send(help)
-            message.author.send(help)
         });
     }
     else if (command === "status") {
@@ -44,7 +43,7 @@ client.on("message", function (message) {
         i = parseFloat(varaibles[1])
         acti = 1
         num = 1
-        arr = [0]
+        arr = []
         while (num <= i) {
             arr.push(num)
             num++
@@ -64,15 +63,15 @@ client.on("message", function (message) {
                 result = parseFloat(varaibles[1]) + parseFloat(varaibles[3])
                 message.reply(varaibles[1] + ` ` + varaibles[2] + ` ` + varaibles[3] + ` = ` + result);
             }
-            if (varaibles[2] == "-") {
+            else if (varaibles[2] == "-") {
                 result = parseFloat(varaibles[1]) - parseFloat(varaibles[3])
                 message.reply(varaibles[1] + ` ` + varaibles[2] + ` ` + varaibles[3] + ` = ` + result);
             }
-            if (varaibles[2] == "*") {
+            else if (varaibles[2] == "*") {
                 result = parseFloat(varaibles[1]) * parseFloat(varaibles[3])
                 message.reply(varaibles[1] + ` ` + varaibles[2] + ` ` + varaibles[3] + ` = ` + result);
             }
-            if (varaibles[2] == "/") {
+            else if (varaibles[2] == "/") {
                 result = parseFloat(varaibles[1]) / parseFloat(varaibles[3])
                 message.reply(varaibles[1] + ` ` + varaibles[2] + ` ` + varaibles[3] + ` = ` + result);
             }
