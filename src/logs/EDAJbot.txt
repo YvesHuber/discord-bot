@@ -1,11 +1,3 @@
-edajbot: hello
-edajbot: hello
-edajbot: hello
-edajbot: hello
-edajbot: 1
-edajbot: 1
-edajbot: 1
-edajbot: 1
 edajbot: 1
 edajbot: 2
 edajbot: 3
@@ -16,4 +8,23 @@ edajbot: 7
 edajbot: 8
 edajbot: 9
 edajbot: 10
-edajbot: later
+edajbot: 1
+edajbot: 11
+edajbot: 12
+edajbot: 14
+edajbot: 13
+edajbot: 15
+edajbot: 1
+edajbot: 6
+edajbot: I
+edajbot: Am
+edajbot: The
+edajbot: Biggest
+edajbot: Flexer
+edajbot: on
+edajbot: the
+edajbot: earth
+edajbot: earth
+edajbot: earth
+poggers
+this takes the later

@@ -2,12 +2,13 @@ My prefix is !
 Parameters:
 My Parameters are written after the command
 !log xQcOW
-
 Commands: 
-    !: returns all of my commands
-    ping: returns ms of the bot       
-    calc: calculates for you
-    speak: tts :D
-    pic: sends a random picture
-    log: Logs the chat of a twitch streamer
-    twitch: returns that Log in the discord chat
+!: returns all of my commands
+ping: returns ms of the bot       
+calc: calculates for you
+speak: tts :D
+pic: sends a random picture
+log: Logs the chat of a twitch streamer
+twitch: returns that Log in the discord chat
+rps: You Play Rock Paper Scissors against the Computer
+duel: lets you fight against a member in this server

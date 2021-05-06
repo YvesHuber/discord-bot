@@ -6,15 +6,12 @@ const fs = require('fs')
 const https = require('https');
 const readline = require('readline');
 
-var images = ["/images/1.jpeg", "/images/2.jpeg", "/images/3.jpeg", "/images/4.jpeg"];
-var image = Math.floor(Math.random() * images.length);
-
 const prefix = "!";
 
 client.on("message", function (message) {
 
     client.user.setActivity("with great depression", {
-        type: "CODING",
+        type: "Streaming",
         url: "https://github.com/YvesHuber/EDAJBot"
     });
     if (message.author.bot) return;
@@ -24,34 +21,6 @@ client.on("message", function (message) {
     const args = commandBody.split(' ');
     const command = args.shift().toLowerCase();
 
-    function printer(streamer,i){
-        try {
-            acti = 1
-            var stats = fs.statSync('logs/' + streamer + '.txt');
-            var fileSizeInBytes = stats.size;
-            arr = [fileSizeInBytes]
-        
-            const rl = readline.createInterface({
-                input: fs.createReadStream('logs/' + streamer + '.txt'),
-                crlfDelay: Infinity
-              });
-              
-              rl.on('line', (line) => {
-
-                if(i < acti){
-                setTimeout(() => {
-                    message.channel.send(line)
-                }, acti * (1000 + Date.now() - message.createdTimestamp + 100));
-                }
-                acti++
-              });
-            } catch (err) {
-                return
-            }
-            arr.push(acti)
-            return arr
-    }
-
     if (command === "") {
         fs.readFile('help/help.txt', 'utf8', function (err, data) {
             if (err) {
@@ -59,9 +28,9 @@ client.on("message", function (message) {
             }
             const help = data.split("\n")
             message.channel.send(help)
+            message.author.send(help)
         });
     }
-
     else if (command === "status") {
 
     }
@@ -69,6 +38,23 @@ client.on("message", function (message) {
     else if (command === "ping") {
         const timeTaken = Date.now() - message.createdTimestamp;
         message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
+    }
+    else if (command === "count") {
+        const varaibles = message.content.split(" ");
+        i = parseFloat(varaibles[1])
+        acti = 1
+        num = 1
+        arr = [0]
+        while (num <= i) {
+            arr.push(num)
+            num++
+        }
+        arr.forEach(element => {
+            setTimeout(() => {
+                message.channel.send(element)
+            }, acti * (1000 + Date.now() - message.createdTimestamp + 300));
+            acti++
+        });
     }
 
     else if (command === "calc") {
@@ -90,7 +76,6 @@ client.on("message", function (message) {
                 result = parseFloat(varaibles[1]) / parseFloat(varaibles[3])
                 message.reply(varaibles[1] + ` ` + varaibles[2] + ` ` + varaibles[3] + ` = ` + result);
             }
-
         } catch (err) {
             console.log(err)
             return
@@ -124,7 +109,6 @@ client.on("message", function (message) {
         try {
             streamer = Bodynopre[1].toString()
             strn = Bodynopre[1].toString()
-            console.log(streamer)
         } catch (err) {
             console.log(err)
             return
@@ -193,16 +177,112 @@ client.on("message", function (message) {
         } catch (err) {
             return
         }
-        flexdata = [0,0]
-        var fileSizeInBytes = 1
-        console.log("b while")
-        while (flexdata[0] < fileSizeInBytes ) {
-            console.log("while")
-        var stats = fs.statSync('logs/' + streamer + '.txt');
-        fileSizeInBytes = stats.size;
-        flexdata = printer(streamer,flexdata[1])
+        try {
+            acti = 1
+            const rl = readline.createInterface({
+                input: fs.createReadStream('logs/' + streamer + '.txt'),
+                crlfDelay: Infinity
+            });
+            rl.on('line', (line) => {
+                setTimeout(() => {
+                    message.channel.send(line)
+                }, acti * (1000 + Date.now() - message.createdTimestamp + 100));
+                acti++
+            });
+        } catch (err) {
+            return console.log(err)
         }
     }
-});
+
+    else if (command === "rps") {
+        message.react("🪨"),message.react("🧻"),message.react("✂️")
+        const filter = (reaction, user) => {
+            return ['🪨', '🧻', '✂️'].includes(reaction.emoji.name) && user.id === message.author.id;
+        };
+        message.awaitReactions(filter, { max: 1, time: 180000, errors: ['time'] })
+            .then(collected => {
+                const reaction = collected.first();
+                rando = Math.random()
+                if (rando < 0.33 && rando > 0) {
+                    enemy = '🪨'
+                }
+                else if (rando < 0.66 && rando > 0.33) {
+                    enemy = '🧻'
+                }
+                else if (rando < 1 && rando > 0.66) {
+                    enemy = '✂️'
+                }
+                player = reaction.emoji.name
+                if (player == enemy ) {
+                    message.channel.send("Its a Draw")
+                }
+                else if (player == '🪨' && enemy == '🧻' || player == '🧻' && enemy == '✂️' ||player == '✂️' && enemy == '🪨' ) {
+                    message.channel.send("You Lost")
+                }
+                else if (enemy == '🪨' && player == '🧻' || enemy == '🧻' && player == '✂️' ||enemy == '✂️' && player == '🪨' ) {
+                    message.channel.send("You Won")
+
+                }
+            
+            });
+    }
+
+    else if (command === "duel") {
+        var help = ""
+        fs.readFile('duel/rules.txt', 'utf8', function (err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            help = data.split("\n")
+            const challanger = message.author
+            const duelist = message.mentions.members.first()
+            var challangeritem = 0
+            var duelistitem = 0
+            client.users.cache.get(challanger.id).send('You wanted to duel ' + duelist.displayName)
+            client.users.cache.get(challanger.id).send(help)
+            client.users.cache.get(duelist.id).send('You got challanged from ' + challanger.username)
+            client.users.cache.get(duelist.id).send(help)
+            client.on('message', message => {
+                    if (message.author.bot) return;
+                    if (message.content != "") {
+                        if(message.author.id === challanger.id){
+                        challangeritem = parseFloat(message.content)
+                        }
+                    }
+            });
+            client.on('message', mess => {
+                if (mess.channel.type == "dm") {
+                    if (mess.author.bot) return;
+                    if (mess.content != "") {
+                        if (mess.author.id === duelist.id){
+                        duelistitem = parseFloat(mess.content)
+                        }
+                    }
+                }
+            });
+            var timerID = setInterval(() => {
+                console.log(challangeritem,duelistitem)
+                if (challangeritem != 0 && duelistitem != 0) {
+                    if (challangeritem > duelistitem || challangeritem * 4 < duelistitem || duelistitem > 100 || duelistitem < 1){
+                        client.users.cache.get(challanger.id).send("You won the Duel")
+                        client.users.cache.get(duelist.id).send("You lost Sadge")
+                    }
+                    else if (duelistitem > challangeritem || duelistitem * 4 < challangeritem || challangeritem > 100 || challangeritem < 1){
+                        client.users.cache.get(challanger.id).send("You lost Sadge")
+                        client.users.cache.get(duelist.id).send("You won the Duel Ez Clap")
+                    }
+                    else if (challangeritem == duelistitem) {
+                        client.users.cache.get(challanger.id).send("Draw!")
+                        client.users.cache.get(duelist.id).send("Draw!") 
+                    }
+                    clearInterval(timerID)
+                }
+              }, 3000)
+
+
+        });
+
+    }
+})
 
 client.login(config.BOT_TOKEN);

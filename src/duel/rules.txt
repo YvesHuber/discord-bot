@@ -1,0 +1,7 @@
+The Number Game
+
+Enter a Number between 1 and 100
+You win if your number is higher than your opponents
+You lose if your opponents number is only a fourth of your number
+
+Lucky guessing
