@@ -195,7 +195,7 @@ client.on("message", function (message) {
     }
 
     else if (command === "rps") {
-        message.react("🪨"),message.react("🧻"),message.react("✂️")
+        message.react("🪨"), message.react("🧻"), message.react("✂️")
         const filter = (reaction, user) => {
             return ['🪨', '🧻', '✂️'].includes(reaction.emoji.name) && user.id === message.author.id;
         };
@@ -213,74 +213,91 @@ client.on("message", function (message) {
                     enemy = '✂️'
                 }
                 player = reaction.emoji.name
-                if (player == enemy ) {
+                if (player == enemy) {
                     message.channel.send("Its a Draw")
                 }
-                else if (player == '🪨' && enemy == '🧻' || player == '🧻' && enemy == '✂️' ||player == '✂️' && enemy == '🪨' ) {
+                else if (player == '🪨' && enemy == '🧻' || player == '🧻' && enemy == '✂️' || player == '✂️' && enemy == '🪨') {
                     message.channel.send("You Lost")
                 }
-                else if (enemy == '🪨' && player == '🧻' || enemy == '🧻' && player == '✂️' ||enemy == '✂️' && player == '🪨' ) {
+                else if (enemy == '🪨' && player == '🧻' || enemy == '🧻' && player == '✂️' || enemy == '✂️' && player == '🪨') {
                     message.channel.send("You Won")
 
                 }
-            
+
             });
     }
 
     else if (command === "duel") {
+
         var help = ""
         fs.readFile('duel/rules.txt', 'utf8', function (err, data) {
             if (err) {
                 return console.log(err);
             }
-            help = data.split("\n")
-            const challanger = message.author
-            const duelist = message.mentions.members.first()
-            var challangeritem = 0
-            var duelistitem = 0
-            client.users.cache.get(challanger.id).send('You wanted to duel ' + duelist.displayName)
-            client.users.cache.get(challanger.id).send(help)
-            client.users.cache.get(duelist.id).send('You got challanged from ' + challanger.username)
-            client.users.cache.get(duelist.id).send(help)
-            client.on('message', message => {
+            try {
+                
+                help = data.split("\n")
+                const challanger = message.author
+                const duelist = message.mentions.members.first()
+                if (!message.isMemberMentioned(client.user) ){
+                    return
+                }
+                var challangeritem = 0
+                var duelistitem = 0
+                client.users.cache.get(challanger.id).send('You wanted to duel ' + duelist.displayName)
+                client.users.cache.get(challanger.id).send(help)
+                client.users.cache.get(duelist.id).send('You got challanged from ' + challanger.username)
+                client.users.cache.get(duelist.id).send(help)
+            } catch (err) {
+                return err
+            }
+            try {
+                client.on('message', message => {
                     if (message.author.bot) return;
                     if (message.content != "") {
-                        if(message.author.id === challanger.id){
-                        challangeritem = parseFloat(message.content)
+                        if (message.author.id === challanger.id) {
+                            challangeritem = parseFloat(message.content)
                         }
                     }
-            });
-            client.on('message', mess => {
-                if (mess.channel.type == "dm") {
-                    if (mess.author.bot) return;
-                    if (mess.content != "") {
-                        if (mess.author.id === duelist.id){
-                        duelistitem = parseFloat(mess.content)
+                });
+                client.on('message', mess => {
+                    if (mess.channel.type == "dm") {
+                        if (mess.author.bot) return;
+                        if (mess.content != "") {
+                            if (mess.author.id === duelist.id) {
+                                duelistitem = parseFloat(mess.content)
+                            }
                         }
                     }
-                }
-            });
-            var timerID = setInterval(() => {
-                console.log(challangeritem,duelistitem)
-                if (challangeritem != 0 && duelistitem != 0) {
-                    if (challangeritem > duelistitem || challangeritem * 4 < duelistitem || duelistitem > 100 || duelistitem < 1){
-                        client.users.cache.get(challanger.id).send("You won the Duel")
-                        client.users.cache.get(duelist.id).send("You lost Sadge")
+                });
+            } catch (err) {
+                return err
+            }
+            try {
+                var timerID = setInterval(() => {
+                    if (challangeritem != 0 && duelistitem != 0) {
+                        if (challangeritem > duelistitem || challangeritem * 4 < duelistitem || duelistitem > 100 || duelistitem < 1) {
+                            client.users.cache.get(challanger.id).send("You won the Duel")
+                            client.users.cache.get(duelist.id).send("You lost Sadge")
+                        }
+                        else if (duelistitem > challangeritem || duelistitem * 4 < challangeritem || challangeritem > 100 || challangeritem < 1) {
+                            client.users.cache.get(challanger.id).send("You lost Sadge")
+                            client.users.cache.get(duelist.id).send("You won the Duel Ez Clap")
+                        }
+                        else if (challangeritem == duelistitem) {
+                            client.users.cache.get(challanger.id).send("Draw!")
+                            client.users.cache.get(duelist.id).send("Draw!")
+                        }
+                        clearInterval(timerID)
                     }
-                    else if (duelistitem > challangeritem || duelistitem * 4 < challangeritem || challangeritem > 100 || challangeritem < 1){
-                        client.users.cache.get(challanger.id).send("You lost Sadge")
-                        client.users.cache.get(duelist.id).send("You won the Duel Ez Clap")
-                    }
-                    else if (challangeritem == duelistitem) {
-                        client.users.cache.get(challanger.id).send("Draw!")
-                        client.users.cache.get(duelist.id).send("Draw!") 
-                    }
-                    clearInterval(timerID)
-                }
-              }, 3000)
-
+                }, 100)
+            } catch (err) {
+                return err
+            }
+        
 
         });
+
 
     }
 })
